@@ -1,0 +1,33 @@
+// app/(tabs)/InvitationScreen.js
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import InvitationFormModal from "@/components/modals/InvitationFormModal";
+
+const InvitationScreen = ({ route }) => {
+  const { invitationDetails, setInvitationDetails } = route.params;
+
+  return (
+    <View style={styles.container}>
+      <InvitationFormModal
+        modalVisible={true} // Setze das Modal als sichtbar
+        setModalVisible={() => {}} // Hier kannst du die Logik zum Schließen des Modals hinzufügen
+        invitationDetails={invitationDetails}
+        setInvitationDetails={setInvitationDetails}
+        handleInvitationSubmit={() => {
+          console.log("Einladung gesendet:", invitationDetails);
+          // Hier kannst du die Logik zum Senden der Einladung hinzufügen
+        }}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
+
+export default InvitationScreen;
