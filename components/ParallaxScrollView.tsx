@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { StyleSheet, useColorScheme, TouchableOpacity, Text } from "react-native";
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -8,6 +8,10 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { ThemedView } from '@/components/ThemedView';
+import { Colors } from '@/constants/Colors';
+
+import useCurrentMode from '@/custom_hooks/useCurrentMode';
+import { Mode } from '@/constants/Colors';
 
 const HEADER_HEIGHT = 250;
 
@@ -20,6 +24,7 @@ export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
+  currentMode
 }: Props) {
   const colorScheme = useColorScheme() ?? 'light';
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -43,17 +48,13 @@ export default function ParallaxScrollView({
   });
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor: Mode[currentMode].background_primary }]}>
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
-        <Animated.View
-          style={[
-            styles.header,
-            { backgroundColor: headerBackgroundColor[colorScheme] },
-            headerAnimatedStyle,
-          ]}>
+        <Animated.View style={[styles.header]}>
           {headerImage}
         </Animated.View>
-        <ThemedView style={styles.content}>{children}</ThemedView>
+        
+        <ThemedView style={[styles.content, {backgroundColor: Mode[currentMode].background_primary}]}>{children}</ThemedView>
       </Animated.ScrollView>
     </ThemedView>
   );
@@ -62,7 +63,7 @@ export default function ParallaxScrollView({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E88873",
+    
   },
   header: {
     height: 80,
@@ -73,6 +74,5 @@ const styles = StyleSheet.create({
     gap: 16,
     overflow: "hidden",
     marginTop: 10,
-    backgroundColor: "#E0AC9D",
   },
 });

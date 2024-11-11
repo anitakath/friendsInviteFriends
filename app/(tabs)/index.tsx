@@ -1,5 +1,6 @@
-import { Image, StyleSheet, Platform, Modal, TextInput  } from 'react-native';
-import React, {useState} from 'react';
+import { Image, StyleSheet, Platform, Modal, TextInput, TouchableOpacity, Text  } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, {useState, useEffect} from 'react';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -9,26 +10,32 @@ import { Button } from 'react-native';
 import InvitationsField from '../../components/playground/InvitationsField'
 import CustomButton from '@/components/CustomButton';
 import InvitationFormModal from '@/components/modals/InvitationFormModal'
-
+//STYLES
+import { Colors } from '@/constants/Colors';
+import { Mode } from '@/constants/Colors';
+import { useRoute } from '@react-navigation/native';
+import useCurrentMode from '../../custom_hooks/useCurrentMode'
 
 export default function HomeScreen() {
-   const [modalVisible, setModalVisible] = useState(false);
-   const [selectedFriend, setSelectedFriend] = useState(null);
-   const [invitationDetails, setInvitationDetails] = useState({
-     title: "",
-     date: "",
-     time: "",
-     location: "",
-     image: null,
-   });
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+  const [invitationDetails, setInvitationDetails] = useState({
+    title: "",
+    date: "",
+    time: "",
+    location: "",
+    image: null,
+  });
 
+  const { currentMode, setCurrentMode } = useCurrentMode();
+ 
   const onPressOpenInvitationForm = () => {
     setModalVisible(true);
   };
 
-  const onPressChangeUserImage = () =>{
+  const onPressChangeUserImage = () => {
     console.log("changing user image ...");
-  }
+  };
 
   const handleInvitationSubmit = () => {
     // Hier die Logik zum Senden der Einladung hinzufügen
@@ -36,28 +43,64 @@ export default function HomeScreen() {
     setModalVisible(false); // Schließe das Modal nach dem Senden
   };
 
+
+    const toggleMode = () => {
+      const newMode = (currentMode + 1) % Mode.length;
+      setCurrentMode(newMode);
+    };
+
+
+    console.log('CHEKCKCKCKCK')
+
+    console.log(currentMode)
+
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#E0AC9D", dark: "#E88873" }}
+      headerBackgroundColor={Mode[currentMode].background_primary}
       headerImage={
         <Image
           source={require("@/assets/images/partial-react-logo.png")}
           style={styles.reactLogo}
         />
       }
+      currentMode={currentMode}
     >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title"> Best Friends App </ThemedText>
-        <HelloWave />
+      <TouchableOpacity
+        onPress={toggleMode}
+        color={Mode[currentMode].button_primary}
+        style={[
+          styles.toggle_button,
+          { backgroundColor: Mode[currentMode].button_primary},
+        ]}
+      >
+        <Text style={styles.buttonText}>Toggle Mode</Text>
+      </TouchableOpacity>
 
+
+      <ThemedView
+        style={[
+          styles.titleContainer,
+          { backgroundColor: Mode[currentMode].background_primary },
+        ]}
+      >
+        <ThemedText
+          type="title"
+          style={{ color: Mode[currentMode].font_primary }}
+        >
+          Best Friends App{" "}
+        </ThemedText>
+        <HelloWave />
         <Button
           onPress={onPressOpenInvitationForm}
           title="send an invitation"
-          color="#A37774"
+          color={Mode[currentMode].button_primary}
           accessibilityLabel="Learn more about this purple button"
         />
 
+        {/* Button zum Wechseln des Modus */}
         <InvitationFormModal
+          currentMode={currentMode}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           selectedFriend={selectedFriend}
@@ -66,16 +109,22 @@ export default function HomeScreen() {
           setInvitationDetails={setInvitationDetails}
           handleInvitationSubmit={handleInvitationSubmit}
         />
-    
       </ThemedView>
 
-      <ThemedView style={styles.stepContainer}>
+      <ThemedView
+        style={[
+          styles.stepContainer,
+          { backgroundColor: Mode[currentMode].background_primary },
+        ]}
+      >
         <ThemedView style={styles.playground}>
-          <InvitationsField />
+          <InvitationsField currentMode={currentMode} />
         </ThemedView>
 
         <ThemedView style={styles.playgroundRight}>
-          <ThemedText> Hey, Petra! </ThemedText>
+          <ThemedText style={{ color: Mode[currentMode].font_primary }}>
+            Hey, Petra!
+          </ThemedText>
           <Image
             source={require("../../assets/images/dance.jpg")}
             style={styles.userImage}
@@ -83,52 +132,35 @@ export default function HomeScreen() {
           <CustomButton
             onPress={onPressChangeUserImage}
             title={"edit your data.."}
+            color={Mode[currentMode].button_primary}
           />
 
-          <ThemedText>
+          <ThemedText style={{ color: Mode[currentMode].font_primary }}>
             hows your mood today? let your friends know...
           </ThemedText>
         </ThemedView>
-
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: "cmd + d", android: "cmd + m" })}
-          </ThemedText>
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this
-          starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>
-          directory. This will move the current
-          <ThemedText type="defaultSemiBold">app</ThemedText> to
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  toggle_button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: "center",
+   
+  },
+  buttonText: {
+    color: "black", 
+    fontSize: 16,
+  },
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: "#E0AC9D",
+    backgroundColor: Colors.custom.background_primary,
     padding: 4,
     paddingTop: 12,
     display: "flex",
@@ -136,11 +168,11 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     marginBottom: 8,
-    backgroundColor: "#E0AC9D",
+    backgroundColor: Colors.custom.background_primary,
     padding: 4,
   },
   playground: {
-    backgroundColor: "#E0AC9D",
+    backgroundColor: Colors.custom.background_primary,
     height: 500,
     overflow: "scroll",
   },
@@ -168,7 +200,7 @@ const styles = StyleSheet.create({
   },
 
   playgroundRight: {
-    backgroundColor: "#E0AC9D",
+    backgroundColor: Colors.custom.background_primary,
     width: "100%",
     marginVertical: 10,
     display: "flex",
@@ -188,3 +220,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+
+/*
+
+  <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+        <ThemedText>
+          Edit
+          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>
+          to see changes. Press{" "}
+          <ThemedText type="defaultSemiBold">
+            {Platform.select({ ios: "cmd + d", android: "cmd + m" })}
+          </ThemedText>
+          to open developer tools.
+        </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
+        <ThemedText>
+          Tap the Explore tab to learn more about what's included in this
+          starter app.
+        </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
+        <ThemedText>
+          When you're ready, run
+          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>
+          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>
+          directory. This will move the current
+          <ThemedText type="defaultSemiBold">app</ThemedText> to
+          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+        </ThemedText>
+
+  */
