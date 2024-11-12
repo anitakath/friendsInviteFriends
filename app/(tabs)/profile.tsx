@@ -5,12 +5,12 @@ import { View, Text, Image, StyleSheet, Modal, TextInput, Button} from "react-na
 import { Mode } from "@/constants/Colors";
 import useCurrentMode from "@/custom_hooks/useCurrentMode";
 import CustomButton from "@/components/CustomButton";
-
+import { FontAwesome } from "@expo/vector-icons";
+import ChangePasswordModal from '../../components/modals/ChangePasswordModal'
 const Profile = () => {
 
   const { currentMode, setCurrentMode } = useCurrentMode();
 
-  console.log(currentMode)
 
   const [modalVisible, setModalVisible] = useState(false);
   const [newPassword, setNewPassword] = useState("");
@@ -25,9 +25,6 @@ const Profile = () => {
       alert("Die Passwörter stimmen nicht überein.");
     }
   };
-
-
-  console.log(modalVisible)
 
 
   const dynamicStyles = {
@@ -136,7 +133,13 @@ const Profile = () => {
           <Text
             style={[styles.subTitle, { color: Mode[currentMode].font_primary }]}
           >
-            your received invitations{" "}
+            open your received invitations
+            <FontAwesome
+              name="envelope"
+              size={24}
+              color={Mode[currentMode].font_primary}
+              style={{ marginHorizontal: 10 }}
+            />
           </Text>
         </View>
         <View
@@ -148,53 +151,24 @@ const Profile = () => {
           <Text
             style={[styles.subTitle, { color: Mode[currentMode].font_primary }]}
           >
-            your sent invitations{" "}
+            open your sent invitations
+            <FontAwesome
+              name="paper-plane"
+              size={24}
+              color={Mode[currentMode].font_primary}
+              style={{ marginHorizontal: 10 }}
+            />
           </Text>
         </View>
       </View>
 
       {/* change password-modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
+
+      <ChangePasswordModal
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-        style={styles.modal}
-      >
-        <View style={styles.modalContainer}>
-          <View
-            style={[
-              styles.modalContent,
-              { backgroundColor: Mode[currentMode].background_primary },
-            ]}
-          >
-            <Text>Neues Passwort eingeben:</Text>
-            <TextInput
-              placeholder="Neues Passwort"
-              secureTextEntry
-              value={newPassword}
-              onChangeText={setNewPassword}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Neues Passwort bestätigen"
-              secureTextEntry
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              style={[styles.input, { color: Mode[currentMode].font_primary }]}
-            />
-            <CustomButton
-              title="Passwort ändern"
-              onPress={handleChangePassword}
-            />
-            <CustomButton
-              title="Abbrechen"
-              onPress={() => setModalVisible(false)}
-              color="red"
-            />
-          </View>
-        </View>
-      </Modal>
+        onClose={() => setModalVisible(false)}
+        currentMode={currentMode}
+      />
     </View>
   );
 };
@@ -244,28 +218,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   invitationsDataSubDiv: {
-    minHeight: "20%",
+    minHeight: "10%",
     marginVertical: 2,
   },
 
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-  },
-  modalContent: {
-    width: "80%",
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-    backgroundColor: "white",
-    borderRadius: 10,
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: "gray",
-    marginBottom: 15,
-    paddingHorizontal: 10,
-  },
 });
