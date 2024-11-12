@@ -50,10 +50,6 @@ export default function HomeScreen() {
     };
 
 
-    console.log('CHEKCKCKCKCK')
-
-    console.log(currentMode)
-
 
   return (
     <ParallaxScrollView
@@ -71,12 +67,11 @@ export default function HomeScreen() {
         color={Mode[currentMode].button_primary}
         style={[
           styles.toggle_button,
-          { backgroundColor: Mode[currentMode].button_primary},
+          { backgroundColor: Mode[currentMode].button_primary },
         ]}
       >
         <Text style={styles.buttonText}>Toggle Mode</Text>
       </TouchableOpacity>
-
 
       <ThemedView
         style={[
@@ -121,7 +116,7 @@ export default function HomeScreen() {
           <InvitationsField currentMode={currentMode} />
         </ThemedView>
 
-        <ThemedView style={styles.playgroundRight}>
+        <ThemedView style={[styles.playgroundRight, {backgroundColor : Mode[currentMode].background_primary}]}>
           <ThemedText style={{ color: Mode[currentMode].font_primary }}>
             Hey, Petra!
           </ThemedText>
@@ -133,6 +128,7 @@ export default function HomeScreen() {
             onPress={onPressChangeUserImage}
             title={"edit your data.."}
             color={Mode[currentMode].button_primary}
+            currentMode={currentMode}
           />
 
           <ThemedText style={{ color: Mode[currentMode].font_primary }}>
@@ -185,8 +181,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "scroll",
-
-    border: "2px solid green",
   },
   leftSidesDate: {
     height: 50,
@@ -195,8 +189,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-
-    border: "2px solid gold",
   },
 
   playgroundRight: {

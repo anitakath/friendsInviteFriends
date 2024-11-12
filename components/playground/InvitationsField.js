@@ -101,8 +101,7 @@ const InvitationsField = ({currentMode}) => {
     },
   };
 
-  console.log('current mode @ InvitationsField')
-  console.log(currentMode)
+
   return (
     <ThemedView style={dynamicStyles.playgroundLeft}>
       {!isInvited ? (

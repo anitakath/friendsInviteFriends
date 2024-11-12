@@ -51,29 +51,30 @@ export const Colors = {
 
 export const Mode = [
   {
-    background_primary: "#3A506B",
-    background_secondary: "#1C2541",
-    font_primary: "#5BC0BE",
+    background_primary: "#3A506B", // dark blue
+    background_secondary: "#1C2541", //darker blue
+    font_primary: "#5BC0BE", //turquoise 
     font_secondary: "beige",
-    button_primary: "#98D7D6",
+    button_primary: "#98D7D6", // light turquoise
     button_secondary: "beige",
     border_color: "black",
   },
   {
-    background_primary: "#FF5964",
-    background_secondary: "#35A7FF",
-    font_primary: "#FFFFFF",
-    font_secondary: "#FF5964",
-    button_primary: "#38618C",
+    background_primary: "#FF5964", // red
+    background_secondary: "#35A7FF", // light blue
+    font_primary: "#FFFFFF", // white
+    //font_primary: "#FFE74C", //yellow
+    font_secondary: "#FF5964", // red
+    button_primary: "#38618C", // dark blue
     button_secondary: "beige",
     border_color: "black",
   },
   {
-    background_primary: "#EDE7B1",
-    background_secondary: "#E4C1F9",
-    font_primary: "#F694C1",
-    font_secondary: "#EDE7B1",
-    button_primary: "#A9DEF9",
+    background_primary: "#EDE7B1", //pastel yellow
+    background_secondary: "#E4C1F9", //pastel purple
+    font_primary: "#F694C1", //pastel pink
+    font_secondary: "#D3F8E2", // pastel green
+    button_primary: "#A9DEF9", //pastel blue
     button_secondary: "beige",
     border_color: "black",
   },
