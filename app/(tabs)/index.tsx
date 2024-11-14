@@ -46,6 +46,7 @@ export default function HomeScreen() {
 
     const toggleMode = () => {
       const newMode = (currentMode + 1) % Mode.length;
+      console.log(newMode)
       setCurrentMode(newMode);
     };
 

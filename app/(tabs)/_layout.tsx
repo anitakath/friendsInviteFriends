@@ -1,13 +1,29 @@
 import { Tabs } from "expo-router";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { View, StyleSheet } from "react-native";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { MaterialIcons } from "react-native-vector-icons";
+import { Mode } from "@/constants/Colors";
+import useCurrentMode from "@/custom_hooks/useCurrentMode";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { currentMode } = useCurrentMode();
+
+  console.log('layout..')
+  console.log(currentMode)
+
+  useEffect(()=>{
+
+    console.log('currentMode hat sich geändert:', currentMode);
+    const renderLayout = (
+
+    ) => {};
+  }, [currentMode])
+
+  
 
   return (
     <Tabs
@@ -15,13 +31,13 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#E88873",
+          backgroundColor: "rgba(0,0,0,0.5)",
           borderTopWidth: 0,
           height: 60,
           paddingVertical: 2,
         },
         tabBarLabelStyle: {
-          color: "#484A47",
+          color: "beige",
           position: "relative",
           bottom: 5,
         },
@@ -33,7 +49,7 @@ export default function TabLayout() {
           title: "PROFILE",
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.iconContainer}>
-              <MaterialIcons name="person" color={"#484A47"} size={25} />{" "}
+              <MaterialIcons name="person" color={"beige"} size={25} />{" "}
     
             </View>
           ),
@@ -46,7 +62,7 @@ export default function TabLayout() {
           title: "SEND AN INVITATION",
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.iconContainer}>
-              <MaterialIcons name="send" color={"#484A47"} size={25} />{" "}
+              <MaterialIcons name="send" color={"beige"} size={25} />{" "}
   
             </View>
           ),
@@ -56,10 +72,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "HOME",
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.iconContainer}>
-              <MaterialIcons name="home" color={"#484A47"} size={25} />{" "}
+              <MaterialIcons name="home" color={"beige"} size={25} />{" "}
 
             </View>
           ),
@@ -75,6 +91,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     borderRadius: 10,
-    backgroundColor: "#E88873",
+ 
   },
 });

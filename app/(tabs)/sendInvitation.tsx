@@ -28,6 +28,7 @@ const SendInvitation = () => {
   const { currentMode } = useCurrentMode();
 
 
+  console.log(invitationDetails)
  
   const onPressChangeUserImage = () => {
     console.log("changing user image ...");

@@ -7,6 +7,9 @@ import { useFocusEffect } from "@react-navigation/native";
 const useCurrentMode = () => {
   const [currentMode, setCurrentMode] = useState(0);
 
+  console.log('moincito')
+  console.log(currentMode)
+
   const loadCurrentMode = async () => {
     try {
       const storedMode = await AsyncStorage.getItem("currentMode");
