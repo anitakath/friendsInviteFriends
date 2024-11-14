@@ -6,7 +6,8 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const useCurrentMode = () => {
   const [currentMode, setCurrentMode] = useState(0);
-
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  
   console.log('moincito')
   console.log(currentMode)
 

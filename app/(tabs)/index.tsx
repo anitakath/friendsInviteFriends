@@ -15,7 +15,11 @@ import { Colors } from '@/constants/Colors';
 import { Mode } from '@/constants/Colors';
 import { useRoute } from '@react-navigation/native';
 import useCurrentMode from '../../custom_hooks/useCurrentMode'
-
+//COMPONENTS
+import Feed from '@/components/HomeScreenIndex/Feed';
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from '@/firebaseConfig';
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
@@ -28,6 +32,11 @@ export default function HomeScreen() {
   });
 
   const { currentMode, setCurrentMode } = useCurrentMode();
+  //console.log('Redux State:', useSelector((state) => state));
+  //const userLoggedIn = useSelector((state) => state.auth.userLoggedIn);
+  //const userLoggedIn = useSelector((state) => state);
+  //console.log(userLoggedIn)
+
  
   const onPressOpenInvitationForm = () => {
     setModalVisible(true);
@@ -84,7 +93,7 @@ export default function HomeScreen() {
           type="title"
           style={{ color: Mode[currentMode].font_primary }}
         >
-          Best Friends App{" "}
+          Best Friends App
         </ThemedText>
         <HelloWave />
         <Button
