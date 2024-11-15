@@ -1,25 +1,22 @@
 import { Image, StyleSheet, Platform, Modal, TextInput, TouchableOpacity, Text  } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, {useState, useEffect} from 'react';
+import React, {useState,} from 'react';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Button } from 'react-native';
-//CUSTOM COMPONENTS
-import InvitationsField from '../../components/playground/InvitationsField'
-import CustomButton from '@/components/CustomButton';
-import InvitationFormModal from '@/components/modals/InvitationFormModal'
 //STYLES
 import { Colors } from '@/constants/Colors';
 import { Mode } from '@/constants/Colors';
-import { useRoute } from '@react-navigation/native';
 import useCurrentMode from '../../custom_hooks/useCurrentMode'
 //COMPONENTS
 import Feed from '@/components/HomeScreenIndex/Feed';
+import Login from '@/components/HomeScreenIndex/Login';
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from '@/firebaseConfig';
+
+
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
@@ -31,11 +28,12 @@ export default function HomeScreen() {
     image: null,
   });
 
-  const { currentMode, setCurrentMode } = useCurrentMode();
-  //console.log('Redux State:', useSelector((state) => state));
-  //const userLoggedIn = useSelector((state) => state.auth.userLoggedIn);
-  //const userLoggedIn = useSelector((state) => state);
-  //console.log(userLoggedIn)
+  const { currentMode, toggleMode } = useCurrentMode();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const receivedInvitations = useSelector((state) => state.invitations.receivedInvitations);
+
+  console.log('index.tsx l 37 receivedInvitations')
+  console.log(receivedInvitations)
 
  
   const onPressOpenInvitationForm = () => {
@@ -47,18 +45,10 @@ export default function HomeScreen() {
   };
 
   const handleInvitationSubmit = () => {
-    // Hier die Logik zum Senden der Einladung hinzufügen
+
     console.log("Einladung gesendet:", invitationDetails);
-    setModalVisible(false); // Schließe das Modal nach dem Senden
+    setModalVisible(false); 
   };
-
-
-    const toggleMode = () => {
-      const newMode = (currentMode + 1) % Mode.length;
-      console.log(newMode)
-      setCurrentMode(newMode);
-    };
-
 
 
   return (
@@ -96,14 +86,33 @@ export default function HomeScreen() {
           Best Friends App
         </ThemedText>
         <HelloWave />
-        <Button
+        {isLoggedIn ? (
+          <Feed
+            onPressOpenInvitationForm={onPressOpenInvitationForm}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            selectedFriend={selectedFriend}
+            setSelectedFriend={setSelectedFriend}
+            invitationDetails={invitationDetails}
+            setInvitationDetails={setInvitationDetails}
+            handleInvitationSubmit={handleInvitationSubmit}
+            toggleMode={toggleMode}
+            currentMode={currentMode}
+            onPressChangeUserImage={onPressChangeUserImage}
+          /> 
+    
+        ) : (
+          <Login />
+        )}
+
+        {/*<Button
           onPress={onPressOpenInvitationForm}
           title="send an invitation"
           color={Mode[currentMode].button_primary}
           accessibilityLabel="Learn more about this purple button"
         />
 
-        {/* Button zum Wechseln des Modus */}
+
         <InvitationFormModal
           currentMode={currentMode}
           modalVisible={modalVisible}
@@ -126,7 +135,12 @@ export default function HomeScreen() {
           <InvitationsField currentMode={currentMode} />
         </ThemedView>
 
-        <ThemedView style={[styles.playgroundRight, {backgroundColor : Mode[currentMode].background_primary}]}>
+        <ThemedView
+          style={[
+            styles.playgroundRight,
+            { backgroundColor: Mode[currentMode].background_primary },
+          ]}
+        >
           <ThemedText style={{ color: Mode[currentMode].font_primary }}>
             Hey, Petra!
           </ThemedText>
@@ -145,6 +159,7 @@ export default function HomeScreen() {
             hows your mood today? let your friends know...
           </ThemedText>
         </ThemedView>
+         */}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -171,55 +186,6 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     display: "flex",
     flexDirection: "column",
-  },
-  stepContainer: {
-    marginBottom: 8,
-    backgroundColor: Colors.custom.background_primary,
-    padding: 4,
-  },
-  playground: {
-    backgroundColor: Colors.custom.background_primary,
-    height: 500,
-    overflow: "scroll",
-  },
-  leftSidesTitle: {
-    height: 60,
-    marginRight: 10,
-    marginLeft: 10,
-    fontSize: 30,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "scroll",
-  },
-  leftSidesDate: {
-    height: 50,
-    marginRight: 10,
-    marginLeft: 10,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  playgroundRight: {
-    backgroundColor: Colors.custom.background_primary,
-    width: "100%",
-    marginVertical: 10,
-    display: "flex",
-    alignItems: "center",
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-  userImage: {
-    width: 100,
-    height: 100,
-    marginHorizontal: 10,
-    justifyContent: "center",
   },
 });
 

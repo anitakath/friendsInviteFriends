@@ -11,7 +11,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect} from "react"; // useState importieren
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
-
+//REDUX
+import { Provider } from "react-redux"; 
+import {store} from '../store/index'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,15 +37,14 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        {/* Hier werden die Props an den Stack übergeben */}
-        <Stack.Screen
-          name="(tabs)"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <Provider store={store}>
+      {/* Umhülle deine App mit dem Provider */}
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </ThemeProvider>
+    </Provider>
   );
 }

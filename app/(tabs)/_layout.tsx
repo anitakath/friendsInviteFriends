@@ -8,12 +8,13 @@ import { MaterialIcons } from "react-native-vector-icons";
 import { Mode } from "@/constants/Colors";
 import useCurrentMode from "@/custom_hooks/useCurrentMode";
 
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { currentMode } = useCurrentMode();
-
   console.log('layout..')
   console.log(currentMode)
+
 
   useEffect(()=>{
 

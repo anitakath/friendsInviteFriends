@@ -7,11 +7,19 @@ import useCurrentMode from "@/custom_hooks/useCurrentMode";
 import CustomButton from "@/components/CustomButton";
 import { FontAwesome } from "@expo/vector-icons";
 import ChangePasswordModal from '../../components/modals/ChangePasswordModal'
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from '@/firebaseConfig';
+//COMPONENTS
+import Login from "@/components/HomeScreenIndex/Login";
+
+
+
 const Profile = () => {
-
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  //const userLoggedIn = useSelector((state) => state);
+  console.log(isLoggedIn); 
   const { currentMode, setCurrentMode } = useCurrentMode();
-
-
   const [modalVisible, setModalVisible] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -60,7 +68,10 @@ const Profile = () => {
         { backgroundColor: Mode[currentMode].background_primary },
       ]}
     >
-      <Text style={[styles.title, { color: Mode[currentMode].font_primary }]}>
+
+      {isLoggedIn ? (
+        <View>
+          <Text style={[styles.title, { color: Mode[currentMode].font_primary }]}>
         Profile
       </Text>
 
@@ -169,6 +180,11 @@ const Profile = () => {
         onClose={() => setModalVisible(false)}
         currentMode={currentMode}
       />
+        </View>
+      ) : (
+        <Login/>
+      )}
+      
     </View>
   );
 };

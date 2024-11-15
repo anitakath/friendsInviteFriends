@@ -3,42 +3,22 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { setColorScheme, toggleColorScheme } from "../store/toggleReducer";
 
 const useCurrentMode = () => {
-  const [currentMode, setCurrentMode] = useState(0);
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
-  
-  console.log('moincito')
-  console.log(currentMode)
+  const dispatch = useDispatch();
+  const currentMode = useSelector((state) => state.toggle.colorScheme);
 
-  const loadCurrentMode = async () => {
-    try {
-      const storedMode = await AsyncStorage.getItem("currentMode");
-      if (storedMode !== null) {
-        setCurrentMode(JSON.parse(storedMode));
-      }
-    } catch (error) {
-      console.error("Error loading mode from storage:", error);
-    }
+  const setCurrentMode = (mode) => {
+    dispatch(setColorScheme(mode)); // Setze den Modus im Store
   };
 
-  const saveCurrentMode = async (mode) => {
-    try {
-      await AsyncStorage.setItem("currentMode", JSON.stringify(mode));
-    } catch (error) {
-      console.error("Error saving mode to storage:", error);
-    }
+  const toggleMode = () => {
+    dispatch(toggleColorScheme()); // Verwende die Redux-Aktion zum Toggeln des Modus
   };
 
-
-    useFocusEffect(
-      React.useCallback(() => {
-        loadCurrentMode();
-      }, [])
-    );
-
-
-  return { currentMode, setCurrentMode: (mode) => { setCurrentMode(mode); saveCurrentMode(mode); } };
+  return { currentMode, setCurrentMode, toggleMode }; // Füge toggleMode zur Rückgabe hinzu
 };
 
 export default useCurrentMode;

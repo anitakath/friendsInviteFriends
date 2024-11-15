@@ -12,7 +12,7 @@ import { Colors } from '@/constants/Colors';
 
 import useCurrentMode from '@/custom_hooks/useCurrentMode';
 import { Mode } from '@/constants/Colors';
-
+import { useSelector, UseSelector } from 'react-redux';
 const HEADER_HEIGHT = 250;
 
 type Props = PropsWithChildren<{
@@ -24,15 +24,12 @@ export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
-  currentMode
   
 }: Props) {
   const colorScheme = useColorScheme() ?? 'light';
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
-
-  console.log(currentMode)
-  //const { currentMode, setCurrentMode } = useCurrentMode();
+  const currentMode = useSelector((state) => state.toggle.colorScheme);
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [

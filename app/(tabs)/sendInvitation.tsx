@@ -13,7 +13,11 @@ import InvitationFormModal from "@/components/modals/InvitationFormModal";
 import { Colors } from "@/constants/Colors";
 import { Mode } from "@/constants/Colors";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from '@/firebaseConfig';
+//COMPONENTS
+import Login from "@/components/HomeScreenIndex/Login";
 
 const SendInvitation = () => {
   const [selectedFriend, setSelectedFriend] = useState(null);
@@ -26,6 +30,9 @@ const SendInvitation = () => {
   });
   const [focusedField, setFocusedField] = useState(null);
   const { currentMode } = useCurrentMode();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  //const userLoggedIn = useSelector((state) => state);
+  console.log(isLoggedIn); 
 
 
   console.log(invitationDetails)
@@ -106,92 +113,98 @@ const SendInvitation = () => {
         { backgroundColor: Mode[currentMode].background_primary },
       ]}
     >
-      <ThemedText style={dynamicStyles.title}>
-        who do you want to invite?
-      </ThemedText>
+      {isLoggedIn ? (
+        <View>
+          <ThemedText style={dynamicStyles.title}>
+            who do you want to invite?
+          </ThemedText>
 
-      <ThemedView style={dynamicStyles.friendsContainer}>
-        <ThemedView style={styles.friendItem}></ThemedView>
-        <ThemedView style={styles.friendItem}></ThemedView>
-        <ThemedView style={styles.friendItem}></ThemedView>
-        <ThemedView style={styles.friendItem}></ThemedView>
-        <ThemedView style={styles.friendItem}></ThemedView>
-        <ThemedView style={styles.friendItem}></ThemedView>
-        <ThemedView style={styles.friendItem}></ThemedView>
-        <ThemedView style={styles.friendItem}></ThemedView>
-      </ThemedView>
+          <ThemedView style={dynamicStyles.friendsContainer}>
+            <ThemedView style={styles.friendItem}></ThemedView>
+            <ThemedView style={styles.friendItem}></ThemedView>
+            <ThemedView style={styles.friendItem}></ThemedView>
+            <ThemedView style={styles.friendItem}></ThemedView>
+            <ThemedView style={styles.friendItem}></ThemedView>
+            <ThemedView style={styles.friendItem}></ThemedView>
+            <ThemedView style={styles.friendItem}></ThemedView>
+            <ThemedView style={styles.friendItem}></ThemedView>
+          </ThemedView>
 
-      <ThemedText style={dynamicStyles.title}>
-        what would you like to do when and where?
-      </ThemedText>
+          <ThemedText style={dynamicStyles.title}>
+            what would you like to do when and where?
+          </ThemedText>
 
-      <View>
-        <TextInput
-          placeholder="Titel"
-          value={invitationDetails.title}
-          onChangeText={(text) =>
-            setInvitationDetails({ ...invitationDetails, title: text })
-          }
-          style={[
-            dynamicStyles.input,
-            focusedField === "title" && dynamicStyles.inputFocused,
-          ]}
-          onFocus={() => setFocusedField("title")}
-          onBlur={() => setFocusedField(null)}
-        />
-        <TextInput
-          placeholder="Datum"
-          value={invitationDetails.date}
-          onChangeText={(text) =>
-            setInvitationDetails({ ...invitationDetails, date: text })
-          }
-          style={[
-            dynamicStyles.input,
-            focusedField === "date" && dynamicStyles.inputFocused,
-          ]}
-          onFocus={() => setFocusedField("date")}
-          onBlur={() => setFocusedField(null)}
-        />
-        <TextInput
-          placeholder="Uhrzeit"
-          value={invitationDetails.time}
-          onChangeText={(text) =>
-            setInvitationDetails({ ...invitationDetails, time: text })
-          }
-          style={[
-            dynamicStyles.input,
-            focusedField === "time" && dynamicStyles.inputFocused,
-          ]}
-          onFocus={() => setFocusedField("time")}
-          onBlur={() => setFocusedField(null)}
-        />
-        <TextInput
-          placeholder="Location"
-          value={invitationDetails.location}
-          onChangeText={(text) =>
-            setInvitationDetails({ ...invitationDetails, location: text })
-          }
-          style={[
-            dynamicStyles.input,
-            focusedField === "location" && dynamicStyles.inputFocused,
-          ]}
-          onFocus={() => setFocusedField("location")}
-          onBlur={() => setFocusedField(null)}
-        />
+          <View>
+            <TextInput
+              placeholder="Titel"
+              value={invitationDetails.title}
+              onChangeText={(text) =>
+                setInvitationDetails({ ...invitationDetails, title: text })
+              }
+              style={[
+                dynamicStyles.input,
+                focusedField === "title" && dynamicStyles.inputFocused,
+              ]}
+              onFocus={() => setFocusedField("title")}
+              onBlur={() => setFocusedField(null)}
+            />
+            <TextInput
+              placeholder="Datum"
+              value={invitationDetails.date}
+              onChangeText={(text) =>
+                setInvitationDetails({ ...invitationDetails, date: text })
+              }
+              style={[
+                dynamicStyles.input,
+                focusedField === "date" && dynamicStyles.inputFocused,
+              ]}
+              onFocus={() => setFocusedField("date")}
+              onBlur={() => setFocusedField(null)}
+            />
+            <TextInput
+              placeholder="Uhrzeit"
+              value={invitationDetails.time}
+              onChangeText={(text) =>
+                setInvitationDetails({ ...invitationDetails, time: text })
+              }
+              style={[
+                dynamicStyles.input,
+                focusedField === "time" && dynamicStyles.inputFocused,
+              ]}
+              onFocus={() => setFocusedField("time")}
+              onBlur={() => setFocusedField(null)}
+            />
+            <TextInput
+              placeholder="Location"
+              value={invitationDetails.location}
+              onChangeText={(text) =>
+                setInvitationDetails({ ...invitationDetails, location: text })
+              }
+              style={[
+                dynamicStyles.input,
+                focusedField === "location" && dynamicStyles.inputFocused,
+              ]}
+              onFocus={() => setFocusedField("location")}
+              onBlur={() => setFocusedField(null)}
+            />
 
-        <View
-          style={[
-            styles.buttonContainer,
-            { backgroundColor: Mode[currentMode].background_primary },
-          ]}
-        >
-          <FormButton
-            title="send invitation 🫶🏼"
-            onPress={handleInvitationSubmit}
-            color={Mode[currentMode].button_primary}
-          />
+            <View
+              style={[
+                styles.buttonContainer,
+                { backgroundColor: Mode[currentMode].background_primary },
+              ]}
+            >
+              <FormButton
+                title="send invitation 🫶🏼"
+                onPress={handleInvitationSubmit}
+                color={Mode[currentMode].button_primary}
+              />
+            </View>
+          </View>
         </View>
-      </View>
+      ) : (
+        <Login />
+      )}
     </View>
   );
 };
