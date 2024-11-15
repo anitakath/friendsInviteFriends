@@ -14,7 +14,7 @@ import Feed from '@/components/HomeScreenIndex/Feed';
 import Login from '@/components/HomeScreenIndex/Login';
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { auth } from '@/firebaseConfig';
+
 
 
 export default function HomeScreen() {
@@ -28,12 +28,11 @@ export default function HomeScreen() {
     image: null,
   });
 
+  
   const { currentMode, toggleMode } = useCurrentMode();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const receivedInvitations = useSelector((state) => state.invitations.receivedInvitations);
 
-  console.log('index.tsx l 37 receivedInvitations')
-  console.log(receivedInvitations)
 
  
   const onPressOpenInvitationForm = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, Text, StyleSheet } from "react-native";
 //import { auth } from "../../firebaseConfig"; 
 import {
@@ -10,7 +10,8 @@ import useAuth from '../../custom_hooks/useAuth'
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "@/store/authReducer";
-
+import { firebaseConfig } from "../../firebaseConfig"; 
+import { app, auth } from "../../firebaseConfig";
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
@@ -18,18 +19,20 @@ const Login = ({ onLogin }) => {
   //const [errorMessage, setErrorMessage] = useState("");
   const { handleLogin, errorMessage } = useAuth();
 
+ 
+ 
   const dispatch= useDispatch();
 
-  const testLogin = () =>{
-    dispatch(setLogin());
+  const testLogin = async() =>{
+     const success = await handleLogin(email, password);
+     if (success) {
+       dispatch(setLogin());
+     }
 
   }
 
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
-
-  console.log('login.tsx')
-  console.log(isLoggedIn)
 
 
   return (

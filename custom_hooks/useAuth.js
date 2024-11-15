@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
+
 const useAuth = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
