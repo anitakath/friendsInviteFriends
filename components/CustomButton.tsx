@@ -21,8 +21,7 @@ export default function CustomButton(props) {
       <Text
         style={[styles.text, { color: Mode[validCurrentMode].font_primary }]}
       >
-        {/* Dynamische Textfarbe */}
-        {title}
+        {title} 
       </Text>
     </Pressable>
   );

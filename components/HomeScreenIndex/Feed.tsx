@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import InvitationFormModal from "@/components/modals/InvitationFormModal";
 import { Mode } from "@/constants/Colors";
@@ -27,7 +27,7 @@ const Feed = ({
   const { currentMode, setCurrentMode } = useCurrentMode();
 
   return (
-    <ParallaxScrollView>
+    <View>
       <CustomButton
         onPress={onPressOpenInvitationForm}
         title="send an invitation"
@@ -81,7 +81,7 @@ const Feed = ({
           </ThemedText>
         </ThemedView>
       </ThemedView>
-    </ParallaxScrollView>
+    </View>
   );
 };
 

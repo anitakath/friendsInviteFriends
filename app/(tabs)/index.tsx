@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Modal, TextInput, TouchableOpacity, Text  } from 'react-native';
+import { Image, StyleSheet, Platform, Modal, TextInput, TouchableOpacity, Text, View  } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {useState,} from 'react';
 import { HelloWave } from '@/components/HelloWave';
@@ -28,7 +28,7 @@ export default function HomeScreen() {
     image: null,
   });
 
-  
+
   const { currentMode, toggleMode } = useCurrentMode();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const receivedInvitations = useSelector((state) => state.invitations.receivedInvitations);
@@ -54,10 +54,11 @@ export default function HomeScreen() {
     <ParallaxScrollView
       headerBackgroundColor={Mode[currentMode].background_primary}
       headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
+          <Image
+            source={require("@/assets/images/freestock.jpg")}
+            style={styles.headerImg}
+          />
+     
       }
       currentMode={currentMode}
     >
@@ -72,19 +73,8 @@ export default function HomeScreen() {
         <Text style={styles.buttonText}>Toggle Mode</Text>
       </TouchableOpacity>
 
-      <ThemedView
-        style={[
-          styles.titleContainer,
-          { backgroundColor: Mode[currentMode].background_primary },
-        ]}
-      >
-        <ThemedText
-          type="title"
-          style={{ color: Mode[currentMode].font_primary }}
-        >
-          Best Friends App
-        </ThemedText>
-        <HelloWave />
+   
+   
         {isLoggedIn ? (
           <Feed
             onPressOpenInvitationForm={onPressOpenInvitationForm}
@@ -98,68 +88,13 @@ export default function HomeScreen() {
             toggleMode={toggleMode}
             currentMode={currentMode}
             onPressChangeUserImage={onPressChangeUserImage}
-          /> 
-    
+          />
         ) : (
           <Login />
         )}
 
-        {/*<Button
-          onPress={onPressOpenInvitationForm}
-          title="send an invitation"
-          color={Mode[currentMode].button_primary}
-          accessibilityLabel="Learn more about this purple button"
-        />
+     
 
-
-        <InvitationFormModal
-          currentMode={currentMode}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          selectedFriend={selectedFriend}
-          setSelectedFriend={setSelectedFriend}
-          invitationDetails={invitationDetails}
-          setInvitationDetails={setInvitationDetails}
-          handleInvitationSubmit={handleInvitationSubmit}
-        />
-      </ThemedView>
-
-      <ThemedView
-        style={[
-          styles.stepContainer,
-          { backgroundColor: Mode[currentMode].background_primary },
-        ]}
-      >
-        <ThemedView style={styles.playground}>
-          <InvitationsField currentMode={currentMode} />
-        </ThemedView>
-
-        <ThemedView
-          style={[
-            styles.playgroundRight,
-            { backgroundColor: Mode[currentMode].background_primary },
-          ]}
-        >
-          <ThemedText style={{ color: Mode[currentMode].font_primary }}>
-            Hey, Petra!
-          </ThemedText>
-          <Image
-            source={require("../../assets/images/dance.jpg")}
-            style={styles.userImage}
-          />
-          <CustomButton
-            onPress={onPressChangeUserImage}
-            title={"edit your data.."}
-            color={Mode[currentMode].button_primary}
-            currentMode={currentMode}
-          />
-
-          <ThemedText style={{ color: Mode[currentMode].font_primary }}>
-            hows your mood today? let your friends know...
-          </ThemedText>
-        </ThemedView>
-         */}
-      </ThemedView>
     </ParallaxScrollView>
   );
 }
@@ -170,21 +105,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: "center",
-   
   },
   buttonText: {
-    color: "black", 
+    color: "black",
     fontSize: 16,
   },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    backgroundColor: Colors.custom.background_primary,
-    padding: 4,
-    paddingTop: 12,
-    display: "flex",
-    flexDirection: "column",
+  headerImg: {
+    objectFit: "cover",
+    width: "100%",
+    height: 200,
+    opacity: "50%",
   },
 });
 

@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet, useColorScheme, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, useColorScheme, TouchableOpacity, Text, View} from "react-native";
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -51,8 +51,15 @@ export default function ParallaxScrollView({
     <ThemedView style={[styles.container, { backgroundColor: Mode[currentMode].background_primary }]}>
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         <Animated.View style={[styles.header]}>
-          {headerImage}
+          <View style={styles.headerContent}>
+            {headerImage}
+             <Text style={[styles.headerText, {color: Mode[currentMode].font_primary}]}> INVITE YOUR BESTIES </Text>
+           
+          </View>
+          
+
         </Animated.View>
+        
         
         <ThemedView style={[styles.content, {backgroundColor: Mode[currentMode].background_primary}]}>{children}</ThemedView>
       </Animated.ScrollView>
@@ -63,11 +70,24 @@ export default function ParallaxScrollView({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
   },
   header: {
     height: 80,
     overflow: "hidden",
+  },
+  headerContent: {
+    position: "relative",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  
+  },
+  headerText: {
+    position: "absolute",
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   content: {
     flex: 1,

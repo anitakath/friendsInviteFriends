@@ -20,14 +20,18 @@ const Login = ({ onLogin }) => {
   const { handleLogin, errorMessage } = useAuth();
 
  
+  console.log(" firebaseConfig variables for firebase authentication")
+  console.log(app.options)
+  console.log(auth)
  
   const dispatch= useDispatch();
 
   const testLogin = async() =>{
-     const success = await handleLogin(email, password);
+     dispatch(setLogin());
+     /*const success = await handleLogin(email, password);
      if (success) {
        dispatch(setLogin());
-     }
+     }*/
 
   }
 

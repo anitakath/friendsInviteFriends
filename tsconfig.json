@@ -11,8 +11,6 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "app/(tabs)/InvitationScreen",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "app/(tabs)/InvitationScreen"
   ]
 }

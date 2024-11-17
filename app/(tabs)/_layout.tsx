@@ -32,13 +32,14 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "rgba(0,0,0,0.5)",
+          backgroundColor: Mode[currentMode].tab_bar,
           borderTopWidth: 0,
           height: 60,
           paddingVertical: 2,
+          display: "flex",
         },
         tabBarLabelStyle: {
-          color: "beige",
+          color: "grey",
           position: "relative",
           bottom: 5,
         },
@@ -50,8 +51,7 @@ export default function TabLayout() {
           title: "PROFILE",
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.iconContainer}>
-              <MaterialIcons name="person" color={"beige"} size={25} />{" "}
-    
+              <MaterialIcons name="person" color={"black"} size={25} />
             </View>
           ),
         }}
@@ -63,8 +63,7 @@ export default function TabLayout() {
           title: "SEND AN INVITATION",
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.iconContainer}>
-              <MaterialIcons name="send" color={"beige"} size={25} />{" "}
-  
+              <MaterialIcons name="send" color={"black"} size={25} />{" "}
             </View>
           ),
         }}
@@ -76,8 +75,7 @@ export default function TabLayout() {
           title: "HOME",
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.iconContainer}>
-              <MaterialIcons name="home" color={"beige"} size={25} />{" "}
-
+              <MaterialIcons name="home" color={"black"} size={25} />{" "}
             </View>
           ),
         }}

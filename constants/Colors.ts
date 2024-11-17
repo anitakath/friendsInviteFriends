@@ -53,11 +53,12 @@ export const Mode = [
   {
     background_primary: "#3A506B", // dark blue
     background_secondary: "#1C2541", //darker blue
-    font_primary: "#5BC0BE", //turquoise 
+    font_primary: "#5BC0BE", //turquoise
     font_secondary: "beige",
     button_primary: "#98D7D6", // light turquoise
     button_secondary: "beige",
     border_color: "black",
+    tab_bar: "#C1CFDA",
   },
   {
     background_primary: "#FF5964", // red
@@ -68,6 +69,7 @@ export const Mode = [
     button_primary: "#38618C", // dark blue
     button_secondary: "beige",
     border_color: "black",
+    tab_bar: "#FFD5C2",
   },
   {
     background_primary: "#EDE7B1", //pastel yellow
@@ -77,5 +79,6 @@ export const Mode = [
     button_primary: "#A9DEF9", //pastel blue
     button_secondary: "beige",
     border_color: "black",
+    tab_bar: "#D3F8E2",
   },
 ];
