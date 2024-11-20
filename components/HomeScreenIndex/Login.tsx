@@ -41,21 +41,34 @@ const Login = ({ onLogin, setIsRegistered }) => {
     setIsLoading(true)
     const response = await handleLogin(userData)
 
-     console.log(userData);
+    /*
     if(response){
       const { localId, email, loginexpiresIn } = response; // Destrukturiere die Rückgabe
 
-      console.log(response)
       dispatch(setUser({ id: localId, email, loginexpiresIn }));
 
       
       setMessages({ success: null, success: "login successfully" });
       setIsLoading(false);
       dispatch(setLogin());
-    } else{
-      console.log('couldnt log in')
-      setMessages({ success: null, error: "login failed - check your entries, or click “sign up” to register" });
-      setIsLoading(false)
+    }*/
+    if (response) {
+      console.log("response @ useAuth.js");
+      console.log(response);
+      dispatch(setUser(response));
+
+      setMessages({ success: null, success: "login successfully" });
+      setIsLoading(false);
+      dispatch(setLogin());
+      return response.data; // Rückgabe der gesamten Response-Daten
+    } else {
+      //console.log('couldnt log in')
+      setMessages({
+        success: null,
+        error:
+          "login failed - check your entries, or click “sign up” to register",
+      });
+      setIsLoading(false);
     }
   
   };

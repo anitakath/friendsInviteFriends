@@ -1,17 +1,11 @@
 
 import { useState, useEffect } from "react";
 import axios from 'axios'
-import Sensitives from '../constants/Sensitive'
+import {API_KEY} from '@env'
 
 const useAuth = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  const [logoutTimer, setLogoutTimer] = useState(0);
-  //const API_KEY = process.env.API_KEY;
-  const API_KEY = `${Sensitives.Auth.API_KEY}`;
-  //const API_KEY = process.env.REACT_APP_API_KEY
 
- console.log('MFUINSIUBFNSOKL')
-  console.log(API_KEY)
 
   const validateInputs = (userData) => {
 
@@ -111,7 +105,7 @@ const useAuth = () => {
         console.log("response @ useAuth.js");
         console.log(response);
 
-        return { localId, email, loginexpiresIn };
+        return response;
       }
 
       //return true;

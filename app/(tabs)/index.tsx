@@ -39,6 +39,7 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
   
 
+  console.log('current user @ index.tsx')
   console.log(currentUser)
 
   // The following code ensures that the user is automatically logged out again 

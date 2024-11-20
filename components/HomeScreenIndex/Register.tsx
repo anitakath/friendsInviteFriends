@@ -24,8 +24,6 @@ const Register = ({ setIsRegistered }) => {
 
 
   const handleSubmit = async () =>{
-    console.log("submitting...");
-    //handleRegistration(userData);
 
     // Call the registration function and get validation results
     const validationResult = await handleRegistration(userData);
@@ -43,9 +41,6 @@ const Register = ({ setIsRegistered }) => {
     }
   }
 
-  console.log('CHECKEN')
-
-  console.log(errorMessages)
  
   return (
     <View style={styles.container}>

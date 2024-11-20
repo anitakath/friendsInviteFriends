@@ -20,4 +20,3 @@ web-build/
 # .gitignore
 .env
 firebaseConfig.js
-Sensitive.ts

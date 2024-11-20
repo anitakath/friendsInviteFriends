@@ -5,11 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLoggedIn: false,
   userId: null,
-  user: {
-    id: null,
-    email: null,
-    loginexpiresIn: null,
-  }
+  user: {},
 };
 
 const authSlice = createSlice({
