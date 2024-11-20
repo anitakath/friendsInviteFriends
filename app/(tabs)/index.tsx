@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Platform, Modal, TextInput, TouchableOpacity, Text, View  } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, {useState,} from 'react';
+import React, {useState, useEffect} from 'react';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -12,9 +12,10 @@ import useCurrentMode from '../../custom_hooks/useCurrentMode'
 //COMPONENTS
 import Feed from '@/components/HomeScreenIndex/Feed';
 import Login from '@/components/HomeScreenIndex/Login';
+import Register from '@/components/HomeScreenIndex/Register';
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
-
+import { setLogout, setUser } from "@/store/authReducer";
 
 
 export default function HomeScreen() {
@@ -28,13 +29,39 @@ export default function HomeScreen() {
     image: null,
   });
 
-
   const { currentMode, toggleMode } = useCurrentMode();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const receivedInvitations = useSelector((state) => state.invitations.receivedInvitations);
+  const currentUser = useSelector((state) => state.auth.user);
+  const [isRegistered, setIsRegistered] = useState(true);
+  const receivedInvitations = useSelector(
+    (state) => state.invitations.receivedInvitations
+  );
+  const dispatch = useDispatch();
+  
 
+  console.log(currentUser)
 
- 
+  // The following code ensures that the user is automatically logged out again 
+  // after 48 hours as soon as he logs in.
+  /*
+  useEffect(()=>{
+    if (currentUser.loginexpiresIn && currentUser.loginexpiresIn > 0) {
+      //log user out after 48 hours, so every second day
+      const expiresInMilliseconds = 48 * 60 * 60 * 1000;
+      const timerId = setTimeout(() => {
+        console.log("Logging out due to expiration");
+        dispatch(setLogout());
+        dispatch(setUser({ id: null, email: null, loginexpiresIn: null}));
+      }, expiresInMilliseconds);
+
+      return () => clearTimeout(timerId);
+    } else {
+      console.log("No expiration time available");
+    }
+
+  }, [currentUser])
+  */
+
   const onPressOpenInvitationForm = () => {
     setModalVisible(true);
   };
@@ -44,21 +71,26 @@ export default function HomeScreen() {
   };
 
   const handleInvitationSubmit = () => {
-
     console.log("Einladung gesendet:", invitationDetails);
-    setModalVisible(false); 
+    setModalVisible(false);
   };
 
+
+  const handleLogout = () =>{
+    if(currentUser.id != null){
+      dispatch(setLogout());
+      dispatch(setUser({ id: null, email: null, loginexpiresIn: null })); 
+    }
+  }
 
   return (
     <ParallaxScrollView
       headerBackgroundColor={Mode[currentMode].background_primary}
       headerImage={
-          <Image
-            source={require("@/assets/images/freestock.jpg")}
-            style={styles.headerImg}
-          />
-     
+        <Image
+          source={require("@/assets/images/freestock.jpg")}
+          style={styles.headerImg}
+        />
       }
       currentMode={currentMode}
     >
@@ -73,9 +105,8 @@ export default function HomeScreen() {
         <Text style={styles.buttonText}>Toggle Mode</Text>
       </TouchableOpacity>
 
-   
-   
-        {isLoggedIn ? (
+      {isLoggedIn ? (
+        <View>
           <Feed
             onPressOpenInvitationForm={onPressOpenInvitationForm}
             modalVisible={modalVisible}
@@ -89,12 +120,23 @@ export default function HomeScreen() {
             currentMode={currentMode}
             onPressChangeUserImage={onPressChangeUserImage}
           />
-        ) : (
-          <Login />
-        )}
 
-     
-
+          <TouchableOpacity
+            onPress={handleLogout}
+            color={Mode[currentMode].button_secondary}
+            style={[
+              styles.toggle_button,
+              { backgroundColor: "lightgrey", margin: 10 },
+            ]}
+          >
+            <Text style={styles.buttonText}> Logout 😔 </Text>
+          </TouchableOpacity>
+        </View>
+      ) : isRegistered ? (
+        <Login setIsRegistered={setIsRegistered} />
+      ) : (
+        <Register setIsRegistered={setIsRegistered} />
+      )}
     </ParallaxScrollView>
   );
 }

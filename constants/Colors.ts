@@ -62,14 +62,14 @@ export const Mode = [
   },
   {
     background_primary: "#FF5964", // red
-    background_secondary: "#35A7FF", // light blue
+    background_secondary: "#38618C", //  dark blue
     font_primary: "#FFFFFF", // white
     //font_primary: "#FFE74C", //yellow
     font_secondary: "#FF5964", // red
     button_primary: "#38618C", // dark blue
     button_secondary: "beige",
-    border_color: "black",
-    tab_bar: "#FFD5C2",
+    border_color: "#FFD5C2", //apricot
+    tab_bar: "#FFD5C2", // apricot
   },
   {
     background_primary: "#EDE7B1", //pastel yellow
@@ -78,7 +78,7 @@ export const Mode = [
     font_secondary: "#D3F8E2", // pastel green
     button_primary: "#A9DEF9", //pastel blue
     button_secondary: "beige",
-    border_color: "black",
+    border_color: "#D3F8E2", //pastel green
     tab_bar: "#D3F8E2",
   },
 ];

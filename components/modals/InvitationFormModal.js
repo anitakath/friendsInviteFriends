@@ -3,6 +3,9 @@ import { View, TextInput, StyleSheet, Modal, Button } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import FormButton from '../Buttons/FormButton'
+import useCurrentMode from "@/custom_hooks/useCurrentMode";
+import { Mode } from "@/constants/Colors";
+import FriendsContainer from "../playground/FriendsContainer";
 
 
 const InvitationFormModal = ({
@@ -13,6 +16,15 @@ const InvitationFormModal = ({
   setInvitationDetails,
 }) => {
   const [focusedField, setFocusedField] = useState(null);
+  const { currentMode, toggleMode } = useCurrentMode();
+
+
+  console.log(currentMode)
+
+  const dynamicStyles = {
+
+
+  }
 
   return (
     <Modal
@@ -26,23 +38,20 @@ const InvitationFormModal = ({
           flex: 1,
           paddingHorizontal: 20,
           paddingVertical: 40,
-          backgroundColor: "#E0AC9D",
+          backgroundColor: Mode[currentMode].background_primary,
         }}
       >
-        <ThemedText style={styles.title}> who do you want to invite? </ThemedText>
+        <ThemedText style={styles.title}>
+          {" "}
+          who do you want to invite?{" "}
+        </ThemedText>
 
-        <ThemedView style={styles.friendsContainer}>
-          <ThemedView style={styles.friendItem}></ThemedView>
-          <ThemedView style={styles.friendItem}></ThemedView>
-          <ThemedView style={styles.friendItem}></ThemedView>
-          <ThemedView style={styles.friendItem}></ThemedView>
-          <ThemedView style={styles.friendItem}></ThemedView>
-          <ThemedView style={styles.friendItem}></ThemedView>
-          <ThemedView style={styles.friendItem}></ThemedView>
-          <ThemedView style={styles.friendItem}></ThemedView>
-        </ThemedView>
+        <FriendsContainer />
 
-         <ThemedText style={styles.title}> what would you like to do when and where? </ThemedText>
+        <ThemedText style={styles.title}>
+          {" "}
+          what would you like to do when and where?{" "}
+        </ThemedText>
 
         <TextInput
           placeholder="Titel"
@@ -53,6 +62,8 @@ const InvitationFormModal = ({
           style={[
             styles.input,
             focusedField === "title" && styles.inputFocused,
+            { borderBottomColor: Mode[currentMode].border_color }, // Verwende hier border_color aus dem Mode-Array
+            { borderBottomWidth: 2 },
           ]}
           onFocus={() => setFocusedField("title")}
           onBlur={() => setFocusedField(null)}
@@ -63,7 +74,13 @@ const InvitationFormModal = ({
           onChangeText={(text) =>
             setInvitationDetails({ ...invitationDetails, date: text })
           }
-          style={[styles.input, focusedField === "date" && styles.inputFocused]}
+          style={[
+            styles.input,
+            focusedField === "date" && styles.inputFocused,
+            { backgroundColor: focusedField === "location" ? Mode[currentMode].background_secondary : Mode[currentMode].background_primary }, // Dynamische Hintergrundfarbe
+            { borderBottomColor: Mode[currentMode].border_color }, // Verwende hier border_color aus dem Mode-Array
+            { borderBottomWidth: 2 },
+          ]}
           onFocus={() => setFocusedField("date")}
           onBlur={() => setFocusedField(null)}
         />
@@ -73,7 +90,12 @@ const InvitationFormModal = ({
           onChangeText={(text) =>
             setInvitationDetails({ ...invitationDetails, time: text })
           }
-          style={[styles.input, focusedField === "time" && styles.inputFocused]}
+          style={[
+            styles.input,
+            focusedField === "time" && styles.inputFocused,
+            { borderBottomColor: Mode[currentMode].border_color }, // Verwende hier border_color aus dem Mode-Array
+            { borderBottomWidth: 2 },
+          ]}
           onFocus={() => setFocusedField("time")}
           onBlur={() => setFocusedField(null)}
         />
@@ -86,6 +108,8 @@ const InvitationFormModal = ({
           style={[
             styles.input,
             focusedField === "location" && styles.inputFocused,
+            { borderBottomColor: Mode[currentMode].border_color }, // Verwende hier border_color aus dem Mode-Array
+            { borderBottomWidth: 2 },
           ]}
           onFocus={() => setFocusedField("location")}
           onBlur={() => setFocusedField(null)}
@@ -112,35 +136,12 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   
   },
-  friendsContainer: {
-    backgroundColor: "#E0AC9D",
-    height: 110,
-    overflow: "scroll",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
-    borderTopColor: "#E88873",
-    borderBottomColor: "#E88873",
-    marginVertical: 30,
-    marginBottom: 40,
-  },
-  friendItem: {
-    border: "1px solid #A37774",
-    borderRadius: "50%",
-    height: 70,
-    width: 70,
-    backgroundColor: "#E88873",
-    margin: 6,
-  },
   input: {
     height: 50,
     padding: 2,
     marginHorizontal: 5,
     marginVertical: 10,
-    borderBottomWidth: 2,
-    borderBottomColor: "#E88873",
+
   },
   inputFocused: {
     height: 50,
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderBottomWidth: 0,
     borderBottomColor: "transparent",
-    backgroundColor: "#E88873",
+
   },
   buttonContainer: {
     marginVertical: 15,

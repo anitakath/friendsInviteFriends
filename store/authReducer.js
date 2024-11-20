@@ -5,7 +5,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLoggedIn: false,
   userId: null,
-  user: null
+  user: {
+    id: null,
+    email: null,
+    loginexpiresIn: null,
+  }
 };
 
 const authSlice = createSlice({
@@ -17,6 +21,12 @@ const authSlice = createSlice({
     },
     setLogout: (state) => {
       state.isLoggedIn = false;
+    },
+    setUserId: (state, action) => {
+      state.userId = action.payload; // Setze die User-ID
+    },
+    setUser: (state, action) => {
+      state.user = action.payload; // Setze die Benutzerdaten
     },
   },
 });

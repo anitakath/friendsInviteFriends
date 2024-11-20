@@ -8,16 +8,17 @@ import FormButton from "@/components/Buttons/FormButton";
 //CUSTOM HOOKS
 import useCurrentMode from "@/custom_hooks/useCurrentMode";
 //CIMPONENTS
-import InvitationFormModal from "@/components/modals/InvitationFormModal";
+
 //STYLES
 import { Colors } from "@/constants/Colors";
 import { Mode } from "@/constants/Colors";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
+
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from '@/firebaseConfig';
 //COMPONENTS
 import Login from "@/components/HomeScreenIndex/Login";
+import FriendsContainer from '../../components/playground/FriendsContainer'
 
 const SendInvitation = () => {
   const [selectedFriend, setSelectedFriend] = useState(null);
@@ -31,9 +32,11 @@ const SendInvitation = () => {
   const [focusedField, setFocusedField] = useState(null);
   const { currentMode } = useCurrentMode();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const currentUser = useSelector((state) => state.auth.user);
   //const userLoggedIn = useSelector((state) => state);
   console.log(isLoggedIn); 
 
+  console.log(currentUser);
 
   console.log(invitationDetails)
  
@@ -119,16 +122,7 @@ const SendInvitation = () => {
             who do you want to invite?
           </ThemedText>
 
-          <ThemedView style={dynamicStyles.friendsContainer}>
-            <ThemedView style={styles.friendItem}></ThemedView>
-            <ThemedView style={styles.friendItem}></ThemedView>
-            <ThemedView style={styles.friendItem}></ThemedView>
-            <ThemedView style={styles.friendItem}></ThemedView>
-            <ThemedView style={styles.friendItem}></ThemedView>
-            <ThemedView style={styles.friendItem}></ThemedView>
-            <ThemedView style={styles.friendItem}></ThemedView>
-            <ThemedView style={styles.friendItem}></ThemedView>
-          </ThemedView>
+          <FriendsContainer/>
 
           <ThemedText style={dynamicStyles.title}>
             what would you like to do when and where?

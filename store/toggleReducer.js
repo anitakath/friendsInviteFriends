@@ -13,7 +13,7 @@ const toggleSlice = createSlice({
       state.colorScheme = action.payload; // Setze den Farbmodus auf den übergebenen Wert
     },
     toggleColorScheme: (state) => {
-      state.colorScheme = (state.colorScheme + 1) % Mode.length;// Toggle zwischen zwei Modi (0 und 1)
+      state.colorScheme = (state.colorScheme + 1) % Mode.length;// Toggle zwischen X Modi 
     },
   },
 });
