@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "#E0AC9D",
     justifyContent: "end",
   },
 });

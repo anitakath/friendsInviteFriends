@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import axios from 'axios'
-import {API_KEY} from '@env'
+import {API_KEY, DATABASE_URL} from '@env'
 
 const useAuth = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -131,7 +131,18 @@ const useAuth = () => {
           returnSecureToken: true,
         }
       );
-  
+
+      // Wenn die Registrierung erfolgreich war, speichere den displayName in der Datenbank
+      /*const localId = response.data.localId;
+
+      // Hier kannst du Firestore oder Realtime Database verwenden
+       await axios.put(`${DATABASE_URL}/users/${localId}.json`, {
+         displayName: name,
+         email,
+       });
+
+      return { success: true, message: "Registration successful!" };*/
+
     } catch (error) {
       setErrorMessage(error.message);
     }

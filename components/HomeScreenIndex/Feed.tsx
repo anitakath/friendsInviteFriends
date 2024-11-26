@@ -6,7 +6,6 @@ import { Mode } from "@/constants/Colors";
 import { Colors } from "@/constants/Colors";
 import useCurrentMode from "@/custom_hooks/useCurrentMode";
 //COMPONENTS
-import ParallaxScrollView from "../ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import CustomButton from "../CustomButton";
 import InvitationsField from '../playground/InvitationsField'
@@ -27,13 +26,19 @@ const Feed = ({
   const { currentMode, setCurrentMode } = useCurrentMode();
 
   return (
-    <View>
-      <CustomButton
-        onPress={onPressOpenInvitationForm}
+    <View style={styles.container}>
+      <TouchableOpacity
         title="send an invitation"
+        onPress={onPressOpenInvitationForm}
         color={Mode[currentMode].button_primary}
-        accessibilityLabel="Learn more about this purple button"
-      />
+        style={[
+          styles.invitation_button,
+          { backgroundColor: Mode[currentMode].button_secondary },
+        ]}
+      >
+        <Text style={styles.buttonText}> send an invitation </Text>
+      </TouchableOpacity>
+      
 
       <InvitationFormModal
         currentMode={currentMode}
@@ -92,6 +97,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     backgroundColor: Colors.custom.background_primary,
     padding: 4,
+  },
+  container: {
+    display: "flex",
+    alignItems: "center"
+  },
+  invitation_button:{
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    width: "200px",
+    alignItems: "center",
   },
   playground: {
     backgroundColor: Colors.custom.background_primary,

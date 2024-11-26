@@ -1,22 +1,51 @@
 import { ThemedView } from "@/components/ThemedView";
 import useCurrentMode from "@/custom_hooks/useCurrentMode";
 import { Mode } from "@/constants/Colors";
-
-
-
-import {
-  Image,
-  View,
-  TextInput,
-  StyleSheet,
-  Modal,
-  Button,
-} from "react-native";
+import { useState, useEffect } from "react";
+import { db } from "@/config/firebase"; //firebase database
+import { collection, getDocs } from "firebase/firestore"; 
+//REDUX
+import { useSelector, useDispatch } from "react-redux";
+import {Image, View, TextInput, StyleSheet, Modal, Button} from "react-native";
 
 const FriendsContainer = () => {
 
+  const [friendsList, setFriendsList] = useState([]);
+  const dispatch = useDispatch();
+  const friendsReducer = useSelector((state) => state.friends)
 
-    const {currentMode} = useCurrentMode()
+  //console.log('FRIENDSREDUCER')
+  //console.log(friendsReducer)
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersCollection = collection(db, "users"); // Ersetze 'users' durch den Namen deiner Sammlung
+        const userSnapshot = await getDocs(usersCollection);
+        const userList = userSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        console.log('OH YEEEEAH')
+
+        console.log(userList)
+        setFriendsList(userList); // Setze die Liste der Freunde mit den abgerufenen Benutzern
+      } catch (error) {
+        console.log('OH NOOOO')
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  //console.log('friendslist at friendscontainer')
+  //console.log(friendsList)
+  console.log('hallo')
+
+
+  const {currentMode} = useCurrentMode()
 
     const styles = StyleSheet.create({
       friendsContainer: {

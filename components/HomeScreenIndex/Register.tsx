@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, View, TextInput, Button, Text, StyleSheet } from "react-native";
-import { ThemedText } from "../ThemedText";
-import { ThemedView } from "../ThemedView";
+
 //CUSTOM HOOKS
 import useAuth from "@/custom_hooks/useAuth";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { ThemedText } from "../ThemedText";
+import { setUser, setIsRegistered } from "@/store/authReducer";
 
-const Register = ({ setIsRegistered }) => {
+const Register = () => {
   const [userData, setUserData] = useState({
     type: "signUp",
     name: "",
@@ -13,35 +16,41 @@ const Register = ({ setIsRegistered }) => {
     password: "",
     password_confirmed: "",
   });
+  const dispatch = useDispatch();
 
   const handleInputChange = (field, value) => {
     setUserData({ ...userData, [field]: value });
   };
 
-  const {handleRegistration} = useAuth()
-  const [errorMessages, setErrorMessages] = useState([])
-  const [successMessage, setSuccessMessage] = useState("")
+  const { handleRegistration } = useAuth();
+  const [errorMessages, setErrorMessages] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
 
-
-  const handleSubmit = async () =>{
-
+  const handleSubmit = async () => {
     // Call the registration function and get validation results
     const validationResult = await handleRegistration(userData);
-    console.log(validationResult)
-    
+    console.log(validationResult);
+
     if (!validationResult.success) {
       // Set error messages if validation fails
       setErrorMessages(validationResult.messages);
       setSuccessMessage("");
-    } else if(validationResult.success){
+    } else if (validationResult.success) {
       // Clear error messages on successful registration
       setErrorMessages([]);
-      setSuccessMessage(validationResult.message)
-   
+      setSuccessMessage(validationResult.message);
     }
+  };
+
+    const auth = useSelector((state) => state.auth);
+    console.log('moiin')
+    console.log(auth);
+    console.log(setIsRegistered);
+
+  const loginHandler = () =>{
+    dispatch(setIsRegistered(true))
   }
 
- 
   return (
     <View style={styles.container}>
       <ThemedText style={styles.title}>Sign Up</ThemedText>
@@ -79,7 +88,9 @@ const Register = ({ setIsRegistered }) => {
             data={errorMessages}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <Text style={{ color: "purple", marginVertical: 5}}>💜  {item}</Text>
+              <Text style={{ color: "purple", marginVertical: 5 }}>
+                💜 {item}
+              </Text>
             )}
           />
         </View>
@@ -93,8 +104,8 @@ const Register = ({ setIsRegistered }) => {
         <Button title="Sign Up" onPress={handleSubmit} />
       </View>
       <View style={styles.buttonContainer}>
-        <Text style={{ marginVertical: 10 }}> already registered? </Text>
-        <Button title="Sign In Instead" onPress={() => setIsRegistered(true)} />
+        <Text style={{ marginVertical: 5}}> already registered? </Text>
+        <Button title="Sign In Instead" onPress={loginHandler} />
       </View>
     </View>
   );
@@ -108,7 +119,6 @@ const styles = StyleSheet.create({
     minHeight: "400px",
     maxHeight: "700px",
     padding: 5,
-    backgroundColor: "rgba(255,255,255,0.2)",
   },
   title: {
     fontSize: "2rem",
@@ -117,7 +127,7 @@ const styles = StyleSheet.create({
   },
   input: {
     border: "2px solid rgba(255,255,255, 0.5)",
-    height: "15%",
+    height: "50px",
     marginVertical: 10,
     padding: 5,
   },

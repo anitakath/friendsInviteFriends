@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, TextInput, Button, Text, StyleSheet } from "react-native";
-//import { auth } from "../../firebaseConfig"; 
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,12 +10,13 @@ import useAuth from '../../custom_hooks/useAuth'
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "@/store/authReducer";
 import { ThemedText } from "../ThemedText";
-import { setUser } from "@/store/authReducer";
+import { setUser, setIsRegistered } from "@/store/authReducer";
+
 //COMPONENTS
 import LoadingOverlay from "../ui/LoadingOverlay";
 
 
-const Login = ({ onLogin, setIsRegistered }) => {
+const Login = () => {
 
   const [userData, setUserData] = useState({
     type: "signIn",
@@ -35,6 +35,14 @@ const Login = ({ onLogin, setIsRegistered }) => {
  
   //const [errorMessage, setErrorMessage] = useState("");
   const { handleLogin, errorMessage } = useAuth();
+  const isRegistered = useSelector((state) => state.auth.isRegistered);
+
+  console.log(isRegistered)
+
+  const auth = useSelector((state) => state.auth)
+  console.log(auth)
+
+
   const dispatch = useDispatch();
 
   const loginHandler = async () => {
@@ -75,6 +83,13 @@ const Login = ({ onLogin, setIsRegistered }) => {
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
+
+  const registerHandler = () =>{
+    dispatch(setIsRegistered(false))
+
+  }
+
+
   return (
     <View style={styles.container}>
       <ThemedText style={styles.title}> sign in </ThemedText>
@@ -104,10 +119,10 @@ const Login = ({ onLogin, setIsRegistered }) => {
           </View>
 
           <View style={styles.buttonContainer}>
-            <Text style={{marginVertical: 10}}> not yet registered? </Text>
+            <Text style={{ marginVertical: 5 }}> not yet registered? </Text>
             <Button
               title="sign up "
-              onPress={() => setIsRegistered(false)}
+              onPress={registerHandler}
               style={styles.button}
             />
           </View>
@@ -130,9 +145,9 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    maxHeight: "700px",
     height: "400px",
     padding: 5,
-    backgroundColor: "rgba(255,255,255,0.2)",
   },
   title: {
     fontSize: "2rem",

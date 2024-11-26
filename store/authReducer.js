@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = {
+  isRegistered: true,
   isLoggedIn: false,
   userId: null,
   user: {},
@@ -24,9 +25,13 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload; // Setze die Benutzerdaten
     },
+    setIsRegistered: (state, action)=>{
+      state.isRegistered = action.payload;
+    }
+
   },
 });
 
 
 export default authSlice.reducer;
-export const { setLogin, setLogout, setUserId, setUser } = authSlice.actions;
+export const { setLogin, setLogout, setUserId, setUser, setIsRegistered } = authSlice.actions;

@@ -29,7 +29,7 @@ const Profile = () => {
   const [currentField, setCurrentField] = useState("");
 
   const openModal = (field) => {
-    setCurrentField(field);
+    setCurrentField(field);add 
     setModalVisible(true);
   };
 

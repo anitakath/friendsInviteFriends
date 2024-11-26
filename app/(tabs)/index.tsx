@@ -31,8 +31,9 @@ export default function HomeScreen() {
 
   const { currentMode, toggleMode } = useCurrentMode();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isRegistered = useSelector((state) => state.auth.isRegistered);
   const currentUser = useSelector((state) => state.auth.user);
-  const [isRegistered, setIsRegistered] = useState(true);
+  //const [isRegistered, setIsRegistered] = useState(true);
   const receivedInvitations = useSelector(
     (state) => state.invitations.receivedInvitations
   );
@@ -43,17 +44,17 @@ export default function HomeScreen() {
   console.log(currentUser)
 
   // The following code ensures that the user is automatically logged out again 
-  // after 48 hours as soon as he logs in.
-  /*
+  // after 1 hour as soon as he logs in.
+  
   useEffect(()=>{
     if (currentUser.loginexpiresIn && currentUser.loginexpiresIn > 0) {
       //log user out after 48 hours, so every second day
-      const expiresInMilliseconds = 48 * 60 * 60 * 1000;
+      const hourInMilliseconds = 3600000;
       const timerId = setTimeout(() => {
-        console.log("Logging out due to expiration");
+        //Logging out due to firebase auth expiration
         dispatch(setLogout());
-        dispatch(setUser({ id: null, email: null, loginexpiresIn: null}));
-      }, expiresInMilliseconds);
+        dispatch(setUser({ id: null, email: null, loginexpiresIn: null }));
+      }, hourInMilliseconds);
 
       return () => clearTimeout(timerId);
     } else {
@@ -61,7 +62,7 @@ export default function HomeScreen() {
     }
 
   }, [currentUser])
-  */
+  
 
   const onPressOpenInvitationForm = () => {
     setModalVisible(true);
@@ -83,6 +84,12 @@ export default function HomeScreen() {
       dispatch(setUser({ id: null, email: null, loginexpiresIn: null })); 
     }
   }
+
+  console.log('jooooo isRegistered')
+  console.log(isRegistered);
+  console.log('jooo is logged in')
+  console.log(isLoggedIn);
+
 
   return (
     <ParallaxScrollView
@@ -134,9 +141,9 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       ) : isRegistered ? (
-        <Login setIsRegistered={setIsRegistered} />
+        <Login />
       ) : (
-        <Register setIsRegistered={setIsRegistered} />
+        <Register />
       )}
     </ParallaxScrollView>
   );
